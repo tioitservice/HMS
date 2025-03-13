@@ -1,12 +1,13 @@
 import './App.css'
+import { Routes, Route } from "react-router-dom";
+import Login from './Components/Login';
+import Dashboard from './Components/Dashboard';
 function App() {
   return (
-    <>
-        <h1 class="text-3xl font-bold underline font-red">
-          Hello world! This is tailwind
-        </h1>
-       
-    </>
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/login" element={<Login />} />
+  </Routes>
   )
 }
 
