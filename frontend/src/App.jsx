@@ -1,9 +1,11 @@
 import './App.css'
-import Login from './Components/Login.jsx'
 function App() {
   return (
     <>
-        <Login />
+        <h1 class="text-3xl font-bold underline font-red">
+          Hello world! This is tailwind
+        </h1>
+       
     </>
   )
 }
