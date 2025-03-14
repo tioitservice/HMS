@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import bgLogin from "../assets/bglogin.jpg";
 
 export default function Register() {
   const {
@@ -13,7 +14,8 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center p-6" style={{ backgroundImage: `url(${bgLogin})` }}>
+          <h1 className="text-5xl font-extrabold text-white mb-8 text-center shadow-lg">Hospital Management System</h1>
       <div className="bg-white p-10 rounded-xl shadow-2xl max-w-xl w-full border border-gray-300">
         <h2 className="text-4xl font-extrabold text-center mb-6 text-gray-900">Register</h2>
         <p className="text-center text-gray-500 mb-6">Create your patient account</p>
