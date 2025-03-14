@@ -1,5 +1,6 @@
 // src/pages/Dashboard.js
 import Layout from "../Components/Layout";
+import {Link} from "react-router-dom";
 
 export default function Dashboard() {
   const stats = [
@@ -17,8 +18,10 @@ export default function Dashboard() {
             key={index}
             className={`p-6 ${item.color} text-white rounded-xl shadow-lg flex flex-col items-center`}
           >
+            <Link to={`/${item.title.toLowerCase()}`}>
             <h3 className="text-xl font-semibold">{item.title}</h3>
             <p className="text-3xl font-bold mt-2">{item.total}</p>
+            </Link>
           </div>
         ))}
       </div>
