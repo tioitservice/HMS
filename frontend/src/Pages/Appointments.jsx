@@ -16,7 +16,7 @@ export default function Appointments() {
     endTime: new Date(),
     room: "",
   });
-  
+  const user = JSON.parse(localStorage.getItem("user"));
   const [patients, setPatients] = useState([]);
   const [physicians, setPhysicians] = useState([]);
   const [nurses, setNurses] = useState([]);
@@ -59,12 +59,12 @@ export default function Appointments() {
     <Layout>
       <div className="p-8">
         <h2 className="text-3xl font-semibold text-gray-900 mb-6">Appointments</h2>
-        <button
+        {user.role === "USER" && <button
           className="mb-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
           onClick={() => { setIsEditing(false); setShowModal(true); }}
         >
           Add Appointment
-        </button>
+        </button>}
         <div className="overflow-x-auto bg-white shadow-lg rounded-lg border border-gray-200">
           <table className="w-full text-left border-collapse">
             <thead className="bg-blue-600 text-white">

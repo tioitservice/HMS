@@ -3,9 +3,10 @@ import { Link, Meta, useNavigate } from "react-router-dom";
 import bgLogin from "../assets/bglogin.jpg";
 import toast from "react-hot-toast";
 import { fetchRequest } from "../utility/apiCall";
-
+import { useState } from "react";
 export default function Login() {
   const navigate = useNavigate();
+  const [role, setRole] = useState("ADMIN"); // Toggle role state
   const {
     register,
     handleSubmit,
@@ -38,10 +39,14 @@ export default function Login() {
         localStorage.setItem("user",response.data)
       }
     */
-    const fakeUser = { username: data.username, role: "ADMIN" }; // or "ADMIN"
+    const fakeUser = { username: data.username, role };
     localStorage.setItem("user", JSON.stringify(fakeUser));
     toast.success("Login successful");
-    navigate("/dashboard");
+    if(role === "ADMIN"){
+      navigate("/dashboard");
+    }else{
+      navigate("/appointments");
+    } 
   };
 
   return (
@@ -73,6 +78,19 @@ export default function Login() {
             {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
           </div>
           
+          {/* role toggle */}
+          <div className="flex items-center justify-between">
+            <span className="text-gray-700 font-semibold">Role:</span>
+            <button
+              type="button"
+              onClick={() => setRole(role === "ADMIN" ? "USER" : "ADMIN")}
+              className={`px-4 py-2 rounded-lg font-semibold shadow-md transition-all ${
+                role === "ADMIN" ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-800"
+              }`}
+            >
+              {role}
+            </button>
+          </div>
           {/* Submit Button */}
           <button
             type="submit"

@@ -9,7 +9,6 @@ const ProtectedRoute = () => {
   }
 
   const userData = JSON.parse(user);
-  
   // Prevent infinite redirect by ensuring we only redirect if not already on /appointments
   if (userData.role === "USER" && window.location.pathname !== "/appointments") {
     return <Navigate to="/appointments" replace />;
