@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Layout from "../Components/Layout";
+import toast from "react-hot-toast";
 
 export default function Physicians() {
   const [physicians, setPhysicians] = useState([
@@ -37,7 +38,7 @@ export default function Physicians() {
 
   const handleAddEditPhysician = () => {
     if (!formData.name || !formData.position || !formData.ssn) {
-      alert("Name, Position, and SSN are required!");
+      toast.error("Name, Position, and SSN are required!");
       return;
     }
 
