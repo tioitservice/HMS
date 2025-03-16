@@ -1,13 +1,22 @@
 // src/pages/Dashboard.js
+import { useEffect } from "react";
 import Layout from "../Components/Layout";
 import {Link} from "react-router-dom";
-
+import { fetchRequest } from "../utility/apiCall";
 export default function Dashboard() {
-  const stats = [
-    { title: "Patients", total: 10, color: "bg-blue-500" },
-    { title: "Nurses", total: 5, color: "bg-green-500" },
-    { title: "Physicians", total: 15, color: "bg-purple-500" },
-  ];
+  const [stats, setStats] = useState([
+    { title: "Registered Patients", total: 10, color: "bg-blue-500" },
+    { title: "Prep Nurses", total: 5, color: "bg-green-500" },
+    { title: "Available Physicians", total: 15, color: "bg-purple-500" },
+  ]);
+
+  const fetchPatientsNursesPhysicians = async () => {
+      let reponse = await fetchRequest()
+  }
+  useEffect(() => {
+    // on page load we will fetch the registered patients, prep nurses, and available physicians
+
+  },[])
   return (
     <Layout>
       <h2 className="text-2xl font-bold">Welcome to the Dashboard</h2>

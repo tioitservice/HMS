@@ -1,16 +1,29 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import bgLogin from "../assets/bglogin.jpg";
-
+import {toast} from "react-hot-toast"
 export default function Register() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const navigate = useNavigate();
   const onSubmit = (data) => {
     console.log("Registration Data:", data);
+    // TODO: make an API call here to register the user
+    /*
+      let response = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"auth/register","POST",data)
+      if(!response.success){
+        toast.error(response.error)
+        return
+      }else{
+        // set the token to ls
+        toast.success("Registration successful")
+        navigate("/login")
+      }
+    */
+    
   };
 
   return (
@@ -72,7 +85,7 @@ export default function Register() {
             <label className="block text-gray-600 font-semibold">Phone</label>
             <input
               type="tel"
-              {...register("phone", {
+              {...register("phoneNumber", {
                 required: "Phone number is required",
                 pattern: {
                   value: /^[0-9]{10,15}$/,
