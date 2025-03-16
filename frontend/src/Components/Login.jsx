@@ -16,7 +16,7 @@ export default function Login() {
   const onSubmit = async (data) => {
     console.log("Login Data:", data);
     // TODO: make an API call here to authenticate the user
-    /*
+    
       let response = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"auth/login","POST",data)
       if(!response.success){
         toast.error(response.error)
@@ -25,24 +25,21 @@ export default function Login() {
         // set the token to ls
         localStorage.setItem("token",response.data.token)
       }
-    */
+    
     // you'll get a token here
     localStorage.setItem("token", "your-token-here");
     // make an API call to get user details 
-    /*
-      let response = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"auth/getUserByUsername/"+data.username,"POST",data)
-      if(!response.success){
-        toast.error(response.error)
+    
+      let response2 = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"auth/getUserByUsername/"+data.username,"POST",data)
+      if(!response2.success){
+        toast.error(response2.error)
         return
       }else{
         // set the token to ls
-        localStorage.setItem("user",response.data)
+        localStorage.setItem("user",JSON.stringify(response2.data))
       }
-    */
-    const fakeUser = { username: data.username, role };
-    localStorage.setItem("user", JSON.stringify(fakeUser));
     toast.success("Login successful");
-    if(role === "ADMIN"){
+    if(response2.data.role === "ADMIN"){
       navigate("/dashboard");
     }else{
       navigate("/appointments");
