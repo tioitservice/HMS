@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { use, useState, useEffect } from "react";
 import Layout from "../Components/Layout";
 import { FaEye as Eye } from "react-icons/fa";
+import { fetchRequest } from "../utility/apiCall";
+import toast from "react-hot-toast";
 export default function Patients() {
   const [patients, setPatients] = useState([
     {
@@ -22,6 +24,26 @@ export default function Patients() {
   const [showDetails, setShowDetails] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
 
+  useEffect(() => {
+    fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/patient","GET").then((response) => {
+      console.log(response)
+      if (response.success) {
+        setPatients(response.data);
+      }else{
+        toast.error("Unable to fetch patients")
+        setPatients([
+          {
+            "id": "1",
+            "patientId": "John Doe",
+            "email": "john.doe@example.com",
+            "address": "1234 Elm Street, Springfield, USA",
+            "phone": "+1 234 567 8901",
+            "name": "John Doe"
+          }
+        ])
+      }
+    })
+  },[])
   return (
     <Layout>
       <div className="p-8">
@@ -32,8 +54,8 @@ export default function Patients() {
               <tr>
                 <th className="p-4">Name</th>
                 <th className="p-4">Email</th>
-                <th className="p-4">Address</th>
-                <th className="p-4">Phone</th>
+                {/* <th className="p-4">Address</th> */}
+                {/* <th className="p-4">Phone</th> */}
                 <th className="p-4 text-center">Actions</th>
               </tr>
             </thead>
@@ -42,8 +64,8 @@ export default function Patients() {
                 <tr key={patient.id} className="border-b hover:bg-gray-50 transition-all">
                   <td className="p-4">{patient.name}</td>
                   <td className="p-4">{patient.email}</td>
-                  <td className="p-4">{patient.address}</td>
-                  <td className="p-4">{patient.phone}</td>
+                  {/* <td className="p-4">{patient.address}</td> */}
+                  {/* <td className="p-4">{patient.phone}</td> */}
                   <td className="p-4 flex justify-center gap-3">
                     <button
                       className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-all flex items-center gap-2"
