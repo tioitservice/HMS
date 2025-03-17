@@ -125,20 +125,22 @@ export default function Departments() {
               value={formData.deptName}
               onChange={(e) => setFormData({ ...formData, deptName: e.target.value })}
             />
-            {/* <label className="block mb-2">Head Certification</label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded mb-3"
-              value={formData.headCertification}
-              onChange={(e) => setFormData({ ...formData, headCertification: e.target.value })}
-            />
-            <label className="block mb-2">Head Name</label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded mb-3"
-              value={formData.headName}
-              onChange={(e) => setFormData({ ...formData, headName: e.target.value })}
-            /> */}
+           { !isEditing && <div>
+                <label className="block mb-2">Head Certification</label>
+                <input
+                type="text"
+                className="w-full p-2 border rounded mb-3"
+                value={formData.headCertification}
+                onChange={(e) => setFormData({ ...formData, headCertification: e.target.value })}
+                />
+                <label className="block mb-2">Head Name</label>
+                <input
+                type="text"
+                className="w-full p-2 border rounded mb-3"
+                value={formData.headName}
+                onChange={(e) => setFormData({ ...formData, headName: e.target.value })}
+                /> 
+            </div>}
             <button onClick={handleSave} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
           </div>
         </div>
