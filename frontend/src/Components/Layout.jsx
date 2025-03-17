@@ -3,7 +3,7 @@ import { FiHome, FiUsers, FiLogOut } from "react-icons/fi";
 import { FaUserDoctor, FaUserNurse } from "react-icons/fa6";
 import { RiCalendarScheduleLine } from "react-icons/ri";
 import { FaSitemap } from "react-icons/fa";
-
+import { LuWarehouse } from "react-icons/lu"; 
 export default function Layout({ children }) {
   const user = JSON.parse(localStorage.getItem("user")); // Assume user object has a role field
   const navigate = useNavigate();
@@ -15,6 +15,7 @@ export default function Layout({ children }) {
     { name: "Nurses", path: "/nurses", icon: <FaUserNurse size={20} />, roles: ["ADMIN"] },
     { name: "Trained In", path: "/trained_in", icon: <FaUserNurse size={20} />, roles: ["ADMIN"] },
     { name: "Procedures", path: "/procedures", icon: <FaSitemap size={20} />, roles: ["ADMIN"] },
+    { name: "Departments", path: "/departments", icon: <LuWarehouse size={20} />, roles: ["ADMIN"] },
   ];
 
   return (
