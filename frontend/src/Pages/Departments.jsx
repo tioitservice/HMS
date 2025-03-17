@@ -32,7 +32,7 @@ export default function Departments() {
     }
     if (isEditing) {
       let response = fetchRequest(
-        import.meta.env.VITE_APP_SERVER_URI + "user/department/" + formData.deptId+ "/"+ formData.deptName,
+        import.meta.env.VITE_APP_SERVER_URI + "user/department/update/deptname/" + formData.deptId+ "/"+ formData.deptName,
         "PUT"
       ).then((response) => {
         if (!response.success) {
