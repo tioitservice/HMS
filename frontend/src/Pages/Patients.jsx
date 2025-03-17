@@ -25,10 +25,11 @@ export default function Patients() {
   const [selectedPatient, setSelectedPatient] = useState(null);
 
   useEffect(() => {
-    fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/patient","GET").then((response) => {
-      console.log(response)
+    fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/getAll","GET").then((response) => {
+      console.log(response.data)
       if (response.success) {
-        setPatients(response.data);
+        const filteredPatients = response.data.filter((patient) => patient.username !== "admin");
+        setPatients(filteredPatients);
       }else{
         toast.error("Unable to fetch patients")
         setPatients([
@@ -43,7 +44,8 @@ export default function Patients() {
         ])
       }
     })
-  },[])
+  }
+  ,[])
   return (
     <Layout>
       <div className="p-8">
@@ -52,20 +54,24 @@ export default function Patients() {
           <table className="w-full text-left border-collapse">
             <thead className="bg-blue-600 text-white">
               <tr>
+              <th className="p-4">Id</th>
+              <th className="p-4">Username</th>
                 <th className="p-4">Name</th>
                 <th className="p-4">Email</th>
-                {/* <th className="p-4">Address</th> */}
-                {/* <th className="p-4">Phone</th> */}
-                <th className="p-4 text-center">Actions</th>
+                <th className="p-4">Phone Number</th> 
+                 <th className="p-4">Address</th>
+                 <th className="p-4 text-center">Actions</th> 
               </tr>
             </thead>
             <tbody>
               {patients.map((patient) => (
                 <tr key={patient.id} className="border-b hover:bg-gray-50 transition-all">
+                  <td className="p-4">{patient.id}</td>
                   <td className="p-4">{patient.name}</td>
+                  <td className="p-4">{patient.username}</td>
                   <td className="p-4">{patient.email}</td>
-                  {/* <td className="p-4">{patient.address}</td> */}
-                  {/* <td className="p-4">{patient.phone}</td> */}
+                  <td className="p-4">{patient.phoneNumber}</td> 
+                  <td className="p-4">{patient.address}</td>
                   <td className="p-4 flex justify-center gap-3">
                     <button
                       className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-all flex items-center gap-2"
@@ -95,10 +101,12 @@ export default function Patients() {
             </button>
             <h2 className="text-2xl font-semibold mb-4 text-center">Patient Details</h2>
             <div className="grid grid-cols-2 gap-4">
+              <p><strong>Id:</strong> {selectedPatient.id}</p>
+              <p><strong>Username:</strong> {selectedPatient.username}</p>
               <p><strong>Name:</strong> {selectedPatient.name}</p>
               <p><strong>Email:</strong> {selectedPatient.email}</p>
+              <p><strong>Phone Number:</strong> {selectedPatient.phoneNumber}</p>
               <p><strong>Address:</strong> {selectedPatient.address}</p>
-              <p><strong>Phone:</strong> {selectedPatient.phone}</p>
             </div>
           </div>
         </div>

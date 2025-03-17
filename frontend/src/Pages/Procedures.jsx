@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import Layout from "../Components/Layout";
+import { fetchRequest } from "../utility/apiCall";
 
 export default function Procedures() {
   const [procedures, setProcedures] = useState([
@@ -14,18 +15,40 @@ export default function Procedures() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleAddEditProcedure = () => {
+  const handleAddEditProcedure = async() => {
     if (!formData.name || !formData.cost) {
       alert("Name and Cost are required!");
       return;
     }
 
     if (editingProcedure) {
+      let response = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/procedure/cost/"+editingProcedure.id,"PUT",formData.cost)
+      if(!response.success){
+        toast.error(response.error)
+        return
+      }else{
+        console.log(response.data)
+      }
+      let response2 = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/procedure/name/"+editingProcedure.id,"PUT",formData.name)
+      console.log(formData.name)
+      if(!response2.success){
+        toast.error(response2.error)
+        return
+      }else{
+        console.log(response2.data)
+      }
       setProcedures((prev) =>
         prev.map((p) => (p.id === editingProcedure.id ? { ...formData, id: p.id } : p))
       );
     } else {
-      setProcedures((prev) => [...prev, { ...formData, id: prev.length + 1 }]);
+      let response = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/procedure","POST",formData)
+      if(!response.success){
+        toast.error(response.error)
+        return
+      }else{
+        console.log(response.data)
+        setProcedures((prev) => [...prev, { ...response.data, id: prev.length + 1 }]);
+      }
     }
 
     setShowModal(false);
@@ -46,6 +69,21 @@ export default function Procedures() {
       setEditingProcedure(null);
     }
   };
+  useEffect(() => {
+    async function fetchProcedures() {
+      let response = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/procedure","GET")
+      if(!response.success){
+        toast.error(response.error)
+        return
+      }else{
+        console.log(response.data)
+        setProcedures(response.data)
+      }
+    }
+    fetchProcedures();
+  }, []);
+
+
 
   return (
     <Layout>
