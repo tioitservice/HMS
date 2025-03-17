@@ -9,6 +9,7 @@ import Appointments from './Pages/Appointments';
 import Nurses from './Pages/Nurses';
 import Procedures from './Pages/Procedures';
 import ProtectedRoute from './Components/Protected';
+import TrainedIn from './Pages/TrainedIn';
 import Departments from './Pages/Departments';
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/physicians" element={<Physicians />} />
           <Route path="/nurses" element={<Nurses />} />
           <Route path="/procedures" element={<Procedures />} />
+          <Route path="/trained_in" element={<TrainedIn />} />
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/departments" element={<Departments />} />
       </Route>

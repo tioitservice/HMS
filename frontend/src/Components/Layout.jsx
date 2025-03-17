@@ -13,6 +13,7 @@ export default function Layout({ children }) {
     { name: "Patients", path: "/patients", icon: <FiUsers size={20} />, roles: ["ADMIN"] },
     { name: "Physicians", path: "/physicians", icon: <FaUserDoctor size={20} />, roles: ["ADMIN"] },
     { name: "Nurses", path: "/nurses", icon: <FaUserNurse size={20} />, roles: ["ADMIN"] },
+    { name: "Trained In", path: "/trained_in", icon: <FaUserNurse size={20} />, roles: ["ADMIN"] },
     { name: "Procedures", path: "/procedures", icon: <FaSitemap size={20} />, roles: ["ADMIN"] },
     { name: "Departments", path: "/departments", icon: <LuWarehouse size={20} />, roles: ["ADMIN"] },
   ];
