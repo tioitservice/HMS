@@ -17,32 +17,32 @@ export default function Login() {
     console.log("Login Data:", data);
     // TODO: make an API call here to authenticate the user
     
-      // let response = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"auth/login","POST",data)
-      // if(!response.success){
-      //   toast.error(response.error)
-      //   return
-      // }else{
-      //   // set the token to ls
-      //   localStorage.setItem("token",response.data.token)
-      // }
+      let response = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"auth/login","POST",data)
+      if(!response.success){
+        toast.error(response.error)
+        return
+      }else{
+        // set the token to ls
+        localStorage.setItem("token",response.data.token)
+      }
     
     // you'll get a token here
-    localStorage.setItem("token", "your-token-here");
+    // localStorage.setItem("token", "your-token-here");
     // make an API call to get user details 
     
-      // let response2 = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"auth/getUserByUsername/"+data.username,"POST",data)
-      // if(!response2.success){
-      //   toast.error(response2.error)
-      //   return
-      // }else{
-      //   // set the token to ls
-      //   localStorage.setItem("user",JSON.stringify(response2.data))
-      // }
+      let response2 = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"auth/getUserByUsername/"+data.username,"GET")
+      if(!response2.success){
+        toast.error(response2.error)
+        return
+      }else{
+        // set the token to ls
+        localStorage.setItem("user",JSON.stringify(response2.data.body))
+      }
     
-    const fakeUser = { username: data.username, role };
-    localStorage.setItem("user", JSON.stringify(fakeUser));
+    // const fakeUser = { username: data.username, role };
+    // localStorage.setItem("user", JSON.stringify(fakeUser));
     toast.success("Login successful");
-    if(role === "ADMIN"){
+    if(response2.data.body.role === "ADMIN"){
       navigate("/dashboard");
     }else{
       navigate("/appointments");
@@ -80,8 +80,8 @@ export default function Login() {
           
           {/* role toggle */}
           <div className="flex items-center justify-between">
-            <span className="text-gray-700 font-semibold">Role:</span>
-            <button
+            {/* <span className="text-gray-700 font-semibold">Role:</span> */}
+            {/* <button
               type="button"
               onClick={() => setRole(role === "ADMIN" ? "USER" : "ADMIN")}
               className={`px-4 py-2 rounded-lg font-semibold shadow-md transition-all ${
@@ -89,7 +89,7 @@ export default function Login() {
               }`}
             >
               {role}
-            </button>
+            </button> */}
           </div>
           {/* Submit Button */}
           <button

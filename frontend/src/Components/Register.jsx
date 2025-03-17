@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { fetchRequest } from "../utility/apiCall";
 import bgLogin from "../assets/bglogin.jpg";
 import {toast} from "react-hot-toast"
 export default function Register() {
@@ -9,10 +10,10 @@ export default function Register() {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
     console.log("Registration Data:", data);
     // TODO: make an API call here to register the user
-    /*
+    
       let response = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"auth/register","POST",data)
       if(!response.success){
         toast.error(response.error)
@@ -22,7 +23,7 @@ export default function Register() {
         toast.success("Registration successful")
         navigate("/login")
       }
-    */
+    
     
   };
 

@@ -16,6 +16,7 @@ export async function fetchRequest(url, method = "GET", body = null, headers = {
         config.body = JSON.stringify(body);
       }
   
+      console.log(config)
       const response = await fetch(url, config);
       const data = await response.json();
   

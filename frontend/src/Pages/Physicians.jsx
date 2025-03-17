@@ -1,19 +1,20 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import Layout from "../Components/Layout";
 import toast from "react-hot-toast";
-
+import {useEffect}  from "react";
+import { fetchRequest } from "../utility/apiCall";
 export default function Physicians() {
   const [physicians, setPhysicians] = useState([
     {
       id: 1,
       name: "Dr. John Doe",
       position: "Cardiologist",
-      ssn: "123-45-6789",
-      department: "Cardiology",
-      specialization: "Heart Diseases",
-      certificationDate: "2022-05-10",
-      certificationExpires: "2027-05-10",
-      primaryAffiliation: true,
+      // ssn: "123-45-6789",
+      // department: "Cardiology",
+      // specialization: "Heart Diseases",
+      // certificationDate: "2022-05-10",
+      // certificationExpires: "2027-05-10",
+      // primaryAffiliation: true,
     },
   ]);
   const [showModal, setShowModal] = useState(false);
@@ -24,30 +25,64 @@ export default function Physicians() {
   const [formData, setFormData] = useState({
     name: "",
     position: "",
-    ssn: "",
-    department: "",
-    specialization: "",
-    certificationDate: "",
-    certificationExpires: "",
-    primaryAffiliation: false,
+    // ssn: "",
+    // department: "",
+    // specialization: "",
+    // certificationDate: "",
+    // certificationExpires: "",
+    // primaryAffiliation: false,
   });
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleAddEditPhysician = () => {
-    if (!formData.name || !formData.position || !formData.ssn) {
-      toast.error("Name, Position, and SSN are required!");
+  const handleAddEditPhysician = async() => {
+    if (!formData.name || !formData.position ) {
+      
+      toast.error("Name, Position are required!");
       return;
     }
 
     if (editingPhysician) {
-      setPhysicians((prev) =>
-        prev.map((p) => (p.id === editingPhysician.id ? { ...formData, id: p.id } : p))
+      console.log(editingPhysician)
+      const updatedPhysician = {
+        employeeId: editingPhysician.employeeId,
+        name: formData.name,
+        position: formData.position,
+      };
+  
+      let response = await fetchRequest(
+        `${import.meta.env.VITE_APP_SERVER_URI}user/physician/update/${editingPhysician.employeeId}`,
+        "PUT",
+        updatedPhysician // Send the updated physician object in the request body
       );
+  
+      if (!response.success) {
+        toast.error(response.error || "Failed to update physician");
+        return;
+      } else {
+        console.log("Physician updated successfully:", response.data);
+        setPhysicians((prev) =>
+          prev.map((p) =>
+            p.employeeId === editingPhysician.employeeId
+              ? { ...p, position: formData.position, name: formData.name } // Update both position and name
+              : p
+          )
+        );
+        toast.success("Physician updated successfully");
+      }
+      
     } else {
+      let response = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/physician","POST",formData)
+      console.log(formData)
+      if(!response.success){
+        toast.error(response.error)
+        return
+      }else{
+        console.log(response.data)
       setPhysicians((prev) => [...prev, { ...formData, id: prev.length + 1 }]);
+      }
     }
 
     setShowModal(false);
@@ -55,12 +90,12 @@ export default function Physicians() {
     setFormData({
       name: "",
       position: "",
-      ssn: "",
-      department: "",
-      specialization: "",
-      certificationDate: "",
-      certificationExpires: "",
-      primaryAffiliation: false,
+      // ssn: "",
+      // department: "",
+      // specialization: "",
+      // certificationDate: "",
+      // certificationExpires: "",
+      // primaryAffiliation: false,
     });
   };
 
@@ -77,6 +112,19 @@ export default function Physicians() {
       setEditingPhysician(null);
     }
   };
+  useEffect(() => {
+    fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/physicians","GET")
+    .then((response) => {
+      if(!response.success){
+        toast.error(response.error)
+        return
+      }else{
+        console.log(response.data)
+        // console.log(response.body)
+        setPhysicians(response.data)
+      }
+    })
+  },[]);
 
   return (
     <Layout>
@@ -90,12 +138,12 @@ export default function Physicians() {
               setFormData({
                 name: "",
                 position: "",
-                ssn: "",
-                department: "",
-                specialization: "",
-                certificationDate: "",
-                certificationExpires: "",
-                primaryAffiliation: false,
+                // ssn: "",
+                // department: "",
+                // specialization: "",
+                // certificationDate: "",
+                // certificationExpires: "",
+                // primaryAffiliation: false,
               });
               setShowModal(true);
             }}
@@ -110,16 +158,16 @@ export default function Physicians() {
               <tr>
                 <th className="p-4">Name</th>
                 <th className="p-4">Position</th>
-                <th className="p-4">Department</th>
+                {/* <th className="p-4">Department</th> */}
                 <th className="p-4 text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
               {physicians.map((physician) => (
-                <tr key={physician.id} className="border-b hover:bg-gray-50 transition-all">
-                  <td className="p-4">{physician.name}</td>
+                <tr key={physician.employeeId} className="border-b hover:bg-gray-50 transition-all">
+                  <td className="p-4">{physician.name.replace(/[^a-zA-Z\s]/g, '')}</td>
                   <td className="p-4">{physician.position}</td>
-                  <td className="p-4">{physician.department}</td>
+                  {/* <td className="p-4">{physician.department}</td> */}
                   <td className="p-4 flex justify-center gap-3">
                     <button
                       className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-all"
@@ -156,12 +204,12 @@ export default function Physicians() {
               <div className="grid grid-cols-2 gap-4">
                 <p><strong>Name:</strong> {selectedPhysician?.name}</p>
                 <p><strong>Position:</strong> {selectedPhysician?.position}</p>
-                <p><strong>SSN:</strong> {selectedPhysician?.ssn}</p>
-                <p><strong>Department:</strong> {selectedPhysician?.department}</p>
-                <p><strong>Specialization:</strong> {selectedPhysician?.specialization}</p>
+                {/* <p><strong>SSN:</strong> {selectedPhysician?.ssn}</p>
+                <p><strong>Department:</strong> {selectedPhysician?.department}</p> */}
+                {/* <p><strong>Specialization:</strong> {selectedPhysician?.specialization}</p>
                 <p><strong>Certification Date:</strong> {selectedPhysician?.certificationDate}</p>
                 <p><strong>Certification Expires:</strong> {selectedPhysician?.certificationExpires}</p>
-                <p><strong>Primary Affiliation:</strong> {selectedPhysician?.primaryAffiliation ? "Yes" : "No"}</p>
+                <p><strong>Primary Affiliation:</strong> {selectedPhysician?.primaryAffiliation ? "Yes" : "No"}</p> */}
               </div>
             </div>
           </div>
@@ -181,12 +229,12 @@ export default function Physicians() {
       </h2>
       <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleInputChange} className="w-full p-2 border rounded mb-3" />
       <input type="text" name="position" placeholder="Position" value={formData.position} onChange={handleInputChange} className="w-full p-2 border rounded mb-3" />
-      <input type="text" name="ssn" placeholder="SSN" value={formData.ssn} onChange={handleInputChange} className="w-full p-2 border rounded mb-3" />
-      <input type="text" name="department" placeholder="Department" value={formData.department} onChange={handleInputChange} className="w-full p-2 border rounded mb-3" />
-      <input type="text" name="specialization" placeholder="Specialization" value={formData.specialization} onChange={handleInputChange} className="w-full p-2 border rounded mb-3" />
+      {/* <input type="text" name="ssn" placeholder="SSN" value={formData.ssn} onChange={handleInputChange} className="w-full p-2 border rounded mb-3" />
+      <input type="text" name="department" placeholder="Department" value={formData.department} onChange={handleInputChange} className="w-full p-2 border rounded mb-3" /> */}
+      {/* <input type="text" name="specialization" placeholder="Specialization" value={formData.specialization} onChange={handleInputChange} className="w-full p-2 border rounded mb-3" />
       <input type="date" name="certificationDate" value={formData.certificationDate} onChange={handleInputChange} className="w-full p-2 border rounded mb-3" />
-      <input type="date" name="certificationExpires" value={formData.certificationExpires} onChange={handleInputChange} className="w-full p-2 border rounded mb-3" />
-      <div className="flex items-center mb-3">
+      <input type="date" name="certificationExpires" value={formData.certificationExpires} onChange={handleInputChange} className="w-full p-2 border rounded mb-3" /> */}
+      {/* <div className="flex items-center mb-3">
         <span className="mr-3">Primary Affiliation:</span>
         <label className="inline-flex items-center cursor-pointer">
           <input type="checkbox" name="primaryAffiliation" checked={formData.primaryAffiliation} onChange={(e) => setFormData({ ...formData, primaryAffiliation: e.target.checked })} className="hidden" />
@@ -194,15 +242,15 @@ export default function Physicians() {
             <div className={`bg-white w-4 h-4 rounded-full shadow-md transform ${formData.primaryAffiliation ? "translate-x-5" : ""}`}></div>
           </div>
         </label>
-      </div>
+      </div> */}
       <button onClick={handleAddEditPhysician} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
         {editingPhysician ? "Update" : "Add"}
       </button>
-      {editingPhysician && (
+      {/* {editingPhysician && (
         <button onClick={handleDelete} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 ml-2">
           Delete
         </button>
-      )}
+      )} */}
     </div>
   </div>
 )}
