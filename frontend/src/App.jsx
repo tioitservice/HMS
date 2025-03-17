@@ -9,6 +9,7 @@ import Appointments from './Pages/Appointments';
 import Nurses from './Pages/Nurses';
 import Procedures from './Pages/Procedures';
 import ProtectedRoute from './Components/Protected';
+import Departments from './Pages/Departments';
 function App() {
   return (
     <Routes>
@@ -22,6 +23,7 @@ function App() {
           <Route path="/nurses" element={<Nurses />} />
           <Route path="/procedures" element={<Procedures />} />
           <Route path="/appointments" element={<Appointments />} />
+          <Route path="/departments" element={<Departments />} />
       </Route>
   </Routes>
   )
