@@ -22,9 +22,17 @@ public class AppointmentController {
     }
 
     @PostMapping("/appointment")
-    public ResponseEntity<String> addAppointment(@RequestBody Appointment appointment) {
-        appointmentService.addAppointment(appointment);
-        return ResponseEntity.ok("Record Created Successfully");
+    public ResponseEntity<?> addAppointment(@RequestBody Appointment appointment) {
+        System.out.println(appointment.getPatientId());
+        System.out.println(appointment.getNurseId());
+        System.out.println(appointment.getPhysicianId());
+        System.out.println(appointment.getExaminationRoomId());
+        System.out.println(appointment.getStartDate());
+        Appointment ap = appointmentService.addAppointment(appointment);
+        if (ap == null) {
+            return ResponseEntity.badRequest().body("Failed to add appointment");
+        }
+        return ResponseEntity.ok(ap);
     }
 
     @GetMapping("/appointment")
@@ -137,5 +145,36 @@ public class AppointmentController {
     public ResponseEntity<Appointment> updateExaminationRoom(@PathVariable int appointmentid, @RequestBody int roomId) {
         Optional<Appointment> updatedAppointment = appointmentService.updateExaminationRoom(appointmentid, roomId);
         return updatedAppointment.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/appointment/{appointmentid}")
+    public ResponseEntity<?> updateAppointment(
+            @PathVariable int appointmentid,
+            @RequestBody Appointment appointment) {
+        // Ensure the appointment ID in the path matches the one in the body
+        if (appointment.getAppointmentId() != appointmentid) {
+            return ResponseEntity.badRequest().body("Appointment ID in path and body must match");
+        }
+
+        Optional<Appointment> existingAppointment = appointmentService.getAppointmentById(appointmentid);
+        if (!existingAppointment.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Appointment updatedAppointment = appointmentService.updateAppointment(appointment);
+        if (updatedAppointment == null) {
+            return ResponseEntity.badRequest().body("Failed to update appointment");
+        }
+        return ResponseEntity.ok(updatedAppointment);
+    }
+
+    @DeleteMapping("/appointment/{appointmentid}")
+    public ResponseEntity<?> deleteAppointment(@PathVariable int appointmentid) {
+        boolean isDeleted = appointmentService.deleteAppointment(appointmentid);
+        if (isDeleted) {
+            return ResponseEntity.ok(appointmentid);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

@@ -23,7 +23,7 @@ public class TrainedInService {
     }
 
     // Add a certification
-    public TrainedIn addCertification(TrainedIn trainedIn) {
+    public TrainedIn addTrainedIn(TrainedIn trainedIn) {
         return trainedInRepository.save(trainedIn);
     }
 
@@ -32,35 +32,44 @@ public class TrainedInService {
         return trainedInRepository.findAll();
     }
 
-    // Get a list of procedures that a physician can treat
-    public List<TrainedIn> getTreatmentsByPhysicianId(int physicianId) {
-        return trainedInRepository.findByPhysicianId(physicianId);
+    public boolean deleteTrainedIn(int id) {
+        Optional<TrainedIn> trainedIn = trainedInRepository.findById(id);
+        if (trainedIn.isPresent()) {
+            trainedInRepository.delete(trainedIn.get());
+            return true; // Successfully deleted
+        } else {
+            return false; // Item not found
+        }
     }
+    // Get a list of procedures that a physician can treat
+//    public List<TrainedIn> getTreatmentsByPhysicianId(int physicianId) {
+//        return trainedInRepository.findByPhysicianId(physicianId);
+//    }
 
     // Get a list of physicians trained for a particular treatment
-    public List<TrainedIn> getPhysiciansForProcedure(int procedureId) {
-        return trainedInRepository.findByProcedureId(procedureId);
-    }
+//    public List<TrainedIn> getPhysiciansForProcedure(int procedureId) {
+//        return trainedInRepository.findByProcedureId(procedureId);
+//    }
 
     // Get procedures whose certification is about to expire within a month
-    public List<TrainedIn> getProceduresExpiringSoon(int physicianId) {
-        LocalDate currentDate = LocalDate.now();
-        LocalDate expiryDateLimit = currentDate.plusMonths(1);
-        return trainedInRepository.findByPhysicianIdAndCertificationExpiryDateBetween(
-                physicianId, currentDate, expiryDateLimit);
-    }
+//    public List<TrainedIn> getProceduresExpiringSoon(int physicianId) {
+//        LocalDate currentDate = LocalDate.now();
+//        LocalDate expiryDateLimit = currentDate.plusMonths(1);
+//        return trainedInRepository.findByPhysicianIdAndCertificationExpiryDateBetween(
+//                physicianId, currentDate, expiryDateLimit);
+//    }
 
     // Update the certification expiry date
-    public boolean updateCertificationExpiry(int physicianId, int procedureId, LocalDate newExpiryDate) {
-        Optional<TrainedIn> trainedIn = trainedInRepository.findById(physicianId);
-        if (trainedIn.isPresent()) {
-            TrainedIn certification = trainedIn.get();
-            if (certification.getProcedureId()==procedureId) {
-                certification.setCertificationExpiryDate(newExpiryDate);
-                trainedInRepository.save(certification);
-                return true;
-            }
-        }
-        return false;
-    }
+//    public boolean updateCertificationExpiry(int physicianId, int procedureId, LocalDate newExpiryDate) {
+//        Optional<TrainedIn> trainedIn = trainedInRepository.findById(physicianId);
+//        if (trainedIn.isPresent()) {
+//            TrainedIn certification = trainedIn.get();
+//            if (certification.get()==procedureId) {
+//                certification.setCertificationExpiryDate(newExpiryDate);
+//                trainedInRepository.save(certification);
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 }

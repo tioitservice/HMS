@@ -10,12 +10,12 @@ import java.util.Optional;
 public interface TrainedInRepository extends JpaRepository<TrainedIn, Integer> {
 
     // Find trained procedures for a given physician
-    List<TrainedIn> findByPhysicianId(int physicianId);
+//    List<TrainedIn> findByPhysicianId(int physicianId);
 
     // Find trained physicians for a given procedure
-    List<TrainedIn> findByProcedureId(int procedureId);
+//    List<TrainedIn> findByProcedureId(int tr);
 
     // Find all trained procedures that will expire soon (within a month)
-    List<TrainedIn> findByPhysicianIdAndCertificationExpiryDateBetween(int physicianId,
-                                                                       LocalDate startDate, LocalDate endDate);
+//    List<TrainedIn> findByPhysicianIdAndCertificationExpiryDateBetween(int physicianId,
+//                                                                       LocalDate startDate, LocalDate endDate);
 }

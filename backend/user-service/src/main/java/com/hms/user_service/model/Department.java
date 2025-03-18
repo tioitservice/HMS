@@ -20,8 +20,6 @@ public class Department {
     @Column(unique = true, nullable = false)
     private String deptName;
 
-    private String headId;
-
     private String headCertification;
 
     private String headName;

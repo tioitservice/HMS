@@ -22,9 +22,8 @@ public class TrainedInController {
 
     // POST: Add a certification to the DB
     @PostMapping("/trained_in")
-    public ResponseEntity<String> addCertification(@RequestBody TrainedIn trainedIn) {
-        trainedInService.addCertification(trainedIn);
-        return ResponseEntity.ok("Record Created Successfully");
+    public TrainedIn addCertification(@RequestBody TrainedIn trainedIn) {
+        return trainedInService.addTrainedIn(trainedIn);
     }
 
     // GET: Get a list of all trained procedures available with certification
@@ -33,33 +32,39 @@ public class TrainedInController {
         List<TrainedIn> trainedProcedures = trainedInService.getAllTrainedProcedures();
         return ResponseEntity.ok(trainedProcedures);
     }
+    @DeleteMapping("/trained_in/{id}")
+    public void deleteCertification(@PathVariable int id) {
+        boolean isDeleted = trainedInService.deleteTrainedIn(id);
+
+    }
 
     // GET: Get a list of treatments a physician can perform based on their certifications
-    @GetMapping("/trained_in/treatment/{physicianid}")
-    public ResponseEntity<List<TrainedIn>> getTreatmentsByPhysician(@PathVariable int physicianid) {
-        List<TrainedIn> treatments = trainedInService.getTreatmentsByPhysicianId(physicianid);
-        return ResponseEntity.ok(treatments);
-    }
+//    @GetMapping("/trained_in/treatment/{physicianid}")
+//    public ResponseEntity<List<TrainedIn>> getTreatmentsByPhysician(@PathVariable int physicianid) {
+//        List<TrainedIn> treatments = trainedInService.getTreatmentsByPhysicianId(physicianid);
+//        return ResponseEntity.ok(treatments);
+//    }
 
     // GET: Get a list of physicians certified for a particular procedure
-    @GetMapping("/trained_in/physicians/{procedureid}")
-    public ResponseEntity<List<TrainedIn>> getPhysiciansForProcedure(@PathVariable int procedureid) {
-        List<TrainedIn> physicians = trainedInService.getPhysiciansForProcedure(procedureid);
-        return ResponseEntity.ok(physicians);
-    }
+//    @GetMapping("/trained_in/physicians/{procedureid}")
+//    public ResponseEntity<List<TrainedIn>> getPhysiciansForProcedure(@PathVariable int procedureid) {
+//        List<TrainedIn> physicians = trainedInService.getPhysiciansForProcedure(procedureid);
+//        return ResponseEntity.ok(physicians);
+//    }
 
     // GET: Get a list of procedures whose certifications will expire within a month
-    @GetMapping("/trained_in/expiredsooncerti/{physicianid}")
-    public ResponseEntity<List<TrainedIn>> getProceduresExpiringSoon(@PathVariable int physicianid) {
-        List<TrainedIn> expiringProcedures = trainedInService.getProceduresExpiringSoon(physicianid);
-        return ResponseEntity.ok(expiringProcedures);
-    }
+//    @GetMapping("/trained_in/expiredsooncerti/{physicianid}")
+//    public ResponseEntity<List<TrainedIn>> getProceduresExpiringSoon(@PathVariable int physicianid) {
+//        List<TrainedIn> expiringProcedures = trainedInService.getProceduresExpiringSoon(physicianid);
+//        return ResponseEntity.ok(expiringProcedures);
+//    }
 
     // PUT: Update the certification expiry date for a particular physician and procedure
-    @PutMapping("/trained_in/certificationexpiry/{physicianid}/{procedureid}")
-    public ResponseEntity<Boolean> updateCertificationExpiry(
-            @PathVariable int physicianid, @PathVariable int procedureid, @RequestBody LocalDate newExpiryDate) {
-        boolean isUpdated = trainedInService.updateCertificationExpiry(physicianid, procedureid, newExpiryDate);
-        return ResponseEntity.ok(isUpdated);
-    }
+//    @PutMapping("/trained_in/certificationexpiry/{physicianid}/{procedureid}")
+//    public ResponseEntity<Boolean> updateCertificationExpiry(
+//            @PathVariable int physicianid, @PathVariable int procedureid, @RequestBody LocalDate newExpiryDate) {
+//        boolean isUpdated = trainedInService.updateCertificationExpiry(physicianid, procedureid, newExpiryDate);
+//        return ResponseEntity.ok(isUpdated);
+//    }
+
 }

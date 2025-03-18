@@ -13,7 +13,7 @@ public interface DepartmentRepository extends JpaRepository<Department, Integer>
 
     Optional<Department> findByDeptName(String deptName);
 
-    Optional<Department> findByHeadId(String headId);
+//    Optional<Department> findByHeadId(String headId);
 
     Optional<Department> findByHeadName(String headName);
 }

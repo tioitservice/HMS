@@ -41,9 +41,11 @@ export default function Nurses() {
         return
       }else{
         console.log(response.body) 
+        console.log(nurses)
       setNurses((prev) =>
-        prev.map((n) => (n.id === editingNurse.id ? { ...formData, id: n.id } : n))
+        prev.map((n) => (n.id === editingNurse.empId ? { ...formData, id: n.id } : n))
       )};
+      window.location.reload()
     }else{
       let response = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/nurse","POST",formData)
       if(!response.success){

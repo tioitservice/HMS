@@ -107,7 +107,7 @@ export default function Procedures() {
             <thead className="bg-blue-600 text-white">
               <tr>
                 <th className="p-4">Name</th>
-                <th className="p-4">Cost ($)</th>
+                <th className="p-4">Cost (₹)</th>
                 <th className="p-4 text-center">Actions</th>
               </tr>
             </thead>
@@ -147,11 +147,11 @@ export default function Procedures() {
               <button onClick={handleAddEditProcedure} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                 {editingProcedure ? "Update" : "Add"}
               </button>
-              {editingProcedure && (
+              {/* {editingProcedure && (
                 <button onClick={handleDelete} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 ml-2">
                   Delete
                 </button>
-              )}
+              )} */}
             </div>
           </div>
         )}

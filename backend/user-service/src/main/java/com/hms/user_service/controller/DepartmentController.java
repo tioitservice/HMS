@@ -21,9 +21,9 @@ public class DepartmentController {
 
     // Create a new Department
     @PostMapping("/department")
-    public ResponseEntity<Department> createDepartment(@RequestBody Department department) {
+    public Department createDepartment(@RequestBody Department department) {
         Department createdDepartment = departmentService.createDepartment(department);
-        return ResponseEntity.ok(createdDepartment);
+        return createdDepartment;
     }
 
     // Get all Departments
@@ -40,15 +40,6 @@ public class DepartmentController {
         return department.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Get Department head by deptId
-    @GetMapping("/department/head/{deptId}")
-    public ResponseEntity<String> getDepartmentHead(@PathVariable int deptId) {
-        Optional<Department> department = departmentService.getDepartmentById(deptId);
-        if (department.isPresent()) {
-            return ResponseEntity.ok(department.get().getHeadId());
-        }
-        return ResponseEntity.notFound().build();
-    }
 
     // Get Department head certification by deptId
     @GetMapping("/department/headcertification/{deptId}")
@@ -68,11 +59,11 @@ public class DepartmentController {
     }
 
     // Check if a Physician is assigned to a Department
-    @GetMapping("/department/check/{physicianId}")
-    public ResponseEntity<Boolean> checkPhysicianInDepartment(@PathVariable String physicianId) {
-        Optional<Department> department = departmentService.getDepartmentByHeadId(physicianId);
-        return department.isPresent() ? ResponseEntity.ok(true) : ResponseEntity.ok(false);
-    }
+//    @GetMapping("/department/check/{physicianId}")
+//    public ResponseEntity<Boolean> checkPhysicianInDepartment(@PathVariable String physicianId) {
+//        Optional<Department> department = departmentService.getDepartmentByHeadId(physicianId);
+//        return department.isPresent() ? ResponseEntity.ok(true) : ResponseEntity.ok(false);
+//    }
 
     // Update Department head ID
     @PutMapping("/department/update/headid/{deptId}")
@@ -82,8 +73,8 @@ public class DepartmentController {
     }
 
     // Update Department name
-    @PutMapping("/department/update/deptname/{deptId}")
-    public ResponseEntity<Department> updateDepartmentName(@PathVariable int deptId, @RequestBody String deptName) {
+    @PutMapping("/department/update/deptname/{deptId}/{deptName}")
+    public ResponseEntity<Department> updateDepartmentName(@PathVariable int deptId, @PathVariable String deptName) {
         Department updatedDepartment = departmentService.updateDepartmentName(deptId, deptName);
         return updatedDepartment != null ? ResponseEntity.ok(updatedDepartment) : ResponseEntity.notFound().build();
     }

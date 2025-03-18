@@ -20,4 +20,6 @@ public class Physician {
     private String name;
 
     private String position;
+    private int deptId;
+    private int trainId;
 }

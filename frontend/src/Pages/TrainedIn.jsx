@@ -25,7 +25,7 @@ export default function TrainedIn() {
       toast.error("Training name is required");
       return;
     }
-    fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/trained_in","POST",formData.trainingName).then((response) => {
+    fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/trained_in","POST",formData).then((response) => {
       if (!response.success) {
         toast.error(response.error);
         return;
@@ -37,13 +37,14 @@ export default function TrainedIn() {
   };
 
   const handleDelete = (id) => {
-    fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/trained_in/"+id,"DELETE").then((response) => {
-      if (!response.success) {
-        toast.error(response.error);
-        return;
-      }
+    console.log(id)
+    fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"user/trained_in/"+id.trainId,"DELETE").then((response) => {
+      // if (!response.success) {
+      //   toast.error(response.error);
+      //   return;
+      // }
     })
-    setTrainings((prev) => prev.filter((training) => training.id !== id));
+    setTrainings((prev) => prev.filter((training) => training.trainId !== id.trainId));
     toast.error("Training deleted!");
   };
 
@@ -82,7 +83,7 @@ export default function TrainedIn() {
                   <td className="p-4 flex justify-center">
                     <button
                       className="bg-red-600 text-white px-4 mr-2 py-2 rounded-md hover:bg-red-700"
-                      onClick={() => handleDelete(training.id)}
+                      onClick={() => handleDelete(training)}
                     >
                       <FaTrash />
                     </button>
