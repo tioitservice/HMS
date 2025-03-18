@@ -17,7 +17,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(unique = true, nullable = false, updatable = false)
+//    @Column(unique = true, nullable = false, updatable = false)
     private String email;
 
     @Enumerated(EnumType.STRING)

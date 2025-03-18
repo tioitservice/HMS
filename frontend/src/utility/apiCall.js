@@ -13,8 +13,12 @@ export async function fetchRequest(url, method = "GET", body = null, headers = {
       };
       
       if (body) {
+        if(typeof body === "string"){
+          config.body = body
+        }else{
         config.body = JSON.stringify(body);
       }
+    }
   
       console.log(config)
       const response = await fetch(url, config);

@@ -43,13 +43,26 @@ public class PhysicianService {
         return null;
     }
 
-    public Physician updateName(int employeeId, String name) {
-        Optional<Physician> physician = physicianRepository.findByEmployeeId(employeeId);
-        if (physician.isPresent()) {
-            physician.get().setName(name);
-            return physicianRepository.save(physician.get());
+    public Physician updateName(int employeeId, Physician physician) {
+        Optional<Physician> exphysician = physicianRepository.findByEmployeeId(employeeId);
+        if (exphysician.isPresent()) {
+            exphysician= Optional.ofNullable(physician);
+            return physicianRepository.save(physician);
         }
         return null;
+    }
+    public Physician updatePhysician(int empid, Physician physician) {
+        // Check if the physician exists
+        Physician existingPhysician = physicianRepository.findById(empid).orElse(null);
+        if (existingPhysician == null) {
+            return null;
+        }
+        existingPhysician.setName(physician.getName());
+        existingPhysician.setPosition(physician.getPosition());
+        existingPhysician.setDeptId(physician.getDeptId());
+        existingPhysician.setTrainId(physician.getTrainId());
+
+        return physicianRepository.save(existingPhysician);
     }
     public List<Physician> getAllPhysicians() {
         return physicianRepository.findAll();

@@ -44,17 +44,34 @@ public class UserServiceApplication implements CommandLineRunner {
 			userRepository.save(admin);
 		}
 
-		// Create 10-15 rooms if they don't exist
+		Room room1 = roomRepository.findById(1).orElse(null);
+		if (room1 == null) {
+			room1 = new Room();
+			room1.setRoomNo(1);
+			room1.setBooked(false); // Set it to not booked
+			roomRepository.save(room1);
+			System.out.println("Room 1 added at startup with booked status false.");
+		} else {
+			System.out.println("Room 1 already exists and won't be updated.");
+		}
+		// Create 10-15 rooms if they don't exist and set default room number to 0
 		for (int i = 101; i <= 115; i++) {
+			// Check if the room already exists by room number
 			if (!roomRepository.existsById(i)) {
 				Room room = new Room();
-				room.setRoomNo(i);
-				room.setBooked(false); // Set initial booking status
+
+				// Set the room number to i, but if it's the default room (which is 0), set it to 0
+				int roomNumber = (i == 0) ? 0 : i;
+				room.setRoomNo(roomNumber);
+				room.setBooked(false); // Set the initial booking status to false (not booked)
+
+				// Save the new room in the repository
 				roomRepository.save(room);
-				System.out.println("Room " + i + " added at startup.");
+				System.out.println("Room " + roomNumber + " added at startup.");
 			} else {
 				System.out.println("Room " + i + " already exists.");
 			}
 		}
+
 	}
 }

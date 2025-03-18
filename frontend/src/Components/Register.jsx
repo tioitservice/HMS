@@ -2,7 +2,8 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchRequest } from "../utility/apiCall";
 import bgLogin from "../assets/bglogin.jpg";
-import {toast} from "react-hot-toast"
+import { toast } from "react-hot-toast";
+
 export default function Register() {
   const {
     register,
@@ -10,21 +11,21 @@ export default function Register() {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const onSubmit = async(data) => {
+
+  const onSubmit = async (data) => {
     console.log("Registration Data:", data);
-    // TODO: make an API call here to register the user
-    
-      let response = await fetchRequest(import.meta.env.VITE_APP_SERVER_URI+"auth/register","POST",data)
-      if(!response.success){
-        toast.error(response.error)
-        return
-      }else{
-        // set the token to ls
-        toast.success("Registration successful")
-        navigate("/login")
-      }
-    
-    
+    let response = await fetchRequest(
+      import.meta.env.VITE_APP_SERVER_URI + "auth/register",
+      "POST",
+      data
+    );
+    if (!response.success) {
+      toast.error(response.error);
+      return;
+    } else {
+      toast.success("Registration successful");
+      navigate("/login");
+    }
   };
 
   return (
@@ -71,6 +72,23 @@ export default function Register() {
             {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>}
           </div>
 
+          {/* Email Field */}
+          <div>
+            <label className="block text-gray-600 font-semibold">Email</label>
+            <input
+              type="email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              })}
+              className="mt-2 p-3 w-full border rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm transition-all"
+            />
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+          </div>
+
           {/* Address Field */}
           <div>
             <label className="block text-gray-600 font-semibold">Address</label>
@@ -95,7 +113,7 @@ export default function Register() {
               })}
               className="mt-2 p-3 w-full border rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm transition-all"
             />
-            {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
+            {errors.phoneNumber && <p className="text-red-500 text-sm mt-1">{errors.phoneNumber.message}</p>}
           </div>
 
           {/* Password Field */}

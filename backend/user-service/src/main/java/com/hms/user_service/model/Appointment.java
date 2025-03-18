@@ -20,7 +20,7 @@ public class Appointment {
     private int nurseId;
 
     @Column(name = "patient_id", nullable = false)
-    private int patientId;
+    private String patientId;
 
     @Column(name = "start_date", nullable = false)
     private Date startDate;
@@ -53,11 +53,11 @@ public class Appointment {
         this.nurseId = nurseId;
     }
 
-    public int getPatientId() {
+    public String getPatientId() {
         return patientId;
     }
 
-    public void setPatientId(int patientId) {
+    public void setPatientId(String patientId) {
         this.patientId = patientId;
     }
 

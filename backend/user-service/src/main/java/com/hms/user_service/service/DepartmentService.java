@@ -31,9 +31,9 @@ public class DepartmentService {
         return departmentRepository.findByDeptName(deptName);
     }
 
-    public Optional<Department> getDepartmentByHeadId(String headId) {
-        return departmentRepository.findByHeadId(headId);
-    }
+//    public Optional<Department> getDepartmentByHeadId(String headId) {
+//        return departmentRepository.findByHeadId(headId);
+//    }
 
     public List<Department> getAllDepartment() {
         return departmentRepository.findAll();
@@ -45,7 +45,6 @@ public class DepartmentService {
     public Department updateDepartmentHeadId(int deptId, String headId) {
         Optional<Department> department = departmentRepository.findByDeptId(deptId);
         if (department.isPresent()) {
-            department.get().setHeadId(headId);
             return departmentRepository.save(department.get());
         }
         return null;

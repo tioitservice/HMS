@@ -22,9 +22,9 @@ public class NurseController {
 
     // Add a nurse detail to the DB
     @PostMapping("/nurse")
-    public ResponseEntity<String> addNurse(@RequestBody Nurse nurse) {
+    public ResponseEntity<?> addNurse(@RequestBody Nurse nurse) {
         nurseService.addNurse(nurse);
-        return ResponseEntity.ok("Record Created Successfully");
+        return ResponseEntity.ok(nurse);
     }
 
     // Get a list of all nurses
@@ -62,9 +62,9 @@ public class NurseController {
     }
 
     // Update the registered value of nurse by empId
-    @PutMapping("/registered/{empid}")
-    public ResponseEntity<Nurse> updateNurseRegistration(@PathVariable int empid, @RequestBody boolean isRegistered) {
-        Optional<Nurse> updatedNurse = nurseService.updateNurseRegistration(empid, isRegistered);
+    @PutMapping("/registered/{empid}/{value}")
+    public ResponseEntity<Nurse> updateNurseRegistration(@PathVariable int empid, @PathVariable boolean value) {
+        Optional<Nurse> updatedNurse = nurseService.updateNurseRegistration(empid, value);
         if (updatedNurse.isPresent()) {
             return ResponseEntity.ok(updatedNurse.get());
         }

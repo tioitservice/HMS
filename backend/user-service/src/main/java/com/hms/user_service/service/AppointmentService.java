@@ -24,23 +24,27 @@ public class AppointmentService {
 
     public Appointment addAppointment(Appointment appointment) {
         // Check if the room exists and is not booked
-        Optional<Room> room = roomService.getRoomByNo(appointment.getExaminationRoomId());
-        if (room.isEmpty()) {
-            throw new IllegalArgumentException("Room does not exist");
-        }
-        if (room.get().isBooked()) {
-            throw new IllegalArgumentException("Room is already booked");
-        }
 
-        // Check if the room is available at the specified time
-        List<Appointment> existingAppointments = appointmentRepository
-                .findByExaminationRoomIdAndStartDate(appointment.getExaminationRoomId(), appointment.getStartDate());
-        if (!existingAppointments.isEmpty()) {
-            throw new IllegalArgumentException("Room is booked for this time slot");
-        }
-
-        // Book the room and save the appointment
-        roomService.updateRoomStatus(appointment.getExaminationRoomId(), true);
+//        Optional<Room> room = roomService.getRoomByNo(appointment.getExaminationRoomId());
+//        if(room.get().getRoomNo()!=0){
+//
+//            if (room.isEmpty()) {
+//                throw new IllegalArgumentException("Room does not exist");
+//            }
+//            if (room.get().isBooked()) {
+//                throw new IllegalArgumentException("Room is already booked");
+//            }
+//        }
+//
+//        // Check if the room is available at the specified time
+//        List<Appointment> existingAppointments = appointmentRepository
+//                .findByExaminationRoomIdAndStartDate(appointment.getExaminationRoomId(), appointment.getStartDate());
+//        if (!existingAppointments.isEmpty()) {
+//            throw new IllegalArgumentException("Room is booked for this time slot");
+//        }
+//
+//        // Book the room and save the appointment
+//        roomService.updateRoomStatus(appointment.getExaminationRoomId(), true);
         return appointmentRepository.save(appointment);
     }
 
@@ -101,7 +105,7 @@ public class AppointmentService {
         if (appointment.isPresent()) {
             Appointment updatedAppointment = appointment.get();
             // Free the old room
-            roomService.updateRoomStatus(updatedAppointment.getExaminationRoomId(), false);
+            roomService.updateRoomStatus(updatedAppointment.getExaminationRoomId(), true);
 
             // Check if the new room is available
             Optional<Room> newRoom = roomService.getRoomByNo(roomId);
@@ -123,5 +127,43 @@ public class AppointmentService {
             return Optional.of(appointmentRepository.save(updatedAppointment));
         }
         return Optional.empty();
+    }
+    public Appointment updateAppointment(Appointment appointment) {
+        Optional<Appointment> existingAppointment = appointmentRepository.findById(appointment.getAppointmentId());
+        if (existingAppointment.isPresent()) {
+            // Update the existing appointment with new values
+            Appointment updated = existingAppointment.get();
+            updated.setPatientId(appointment.getPatientId());
+            updated.setPhysicianId(appointment.getPhysicianId());
+            updated.setNurseId(appointment.getNurseId());
+            updated.setExaminationRoomId(appointment.getExaminationRoomId());
+            updated.setStartDate(appointment.getStartDate());
+            // Add other fields as needed
+            return appointmentRepository.save(updated);
+        }
+        return null; // Or throw an exception if preferred
+    }
+    public boolean deleteAppointment(int appointmentId) {
+        Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+        if (appointment.isPresent()) {
+            Appointment appt = appointment.get();
+
+            // Assuming Appointment has a reference to a room number (examinationRoomNo)
+            int roomNo = appt.getExaminationRoomId(); // Adjust as needed to get the room number from the appointment
+
+            // Use the updateRoomStatus method to mark the room as available
+            Optional<Room> roomUpdate = roomService.updateRoomStatus(roomNo, false);  // false means the room is available
+
+            if (roomUpdate.isPresent()) {
+                // Room successfully updated
+                System.out.println("Room status updated to available");
+            } else {
+                System.out.println("Room not found or unable to update");
+            }
+            appointmentRepository.delete(appointment.get());
+            return true;
+        } else {
+            return false; // Appointment not found
+        }
     }
 }

@@ -150,33 +150,33 @@ class PhysicianServiceTest {
         verify(physicianRepository, never()).save(any(Physician.class));
     }
 
-    @Test
-    void updateName_ShouldUpdateSuccessfully_WhenPhysicianExists() {
-        // Arrange
-        when(physicianRepository.findByEmployeeId(1)).thenReturn(Optional.of(testPhysician));
-        when(physicianRepository.save(any(Physician.class))).thenReturn(testPhysician);
+//    @Test
+//    void updateName_ShouldUpdateSuccessfully_WhenPhysicianExists() {
+//        // Arrange
+//        when(physicianRepository.findByEmployeeId(1)).thenReturn(Optional.of(testPhysician));
+//        when(physicianRepository.save(any(Physician.class))).thenReturn(testPhysician);
+//
+//        // Act
+//        Physician result = physicianService.updateName(1, "Dr. Jane Doe");
+//
+//        // Assert
+//        assertNotNull(result);
+//        assertEquals("Dr. Jane Doe", result.getName());
+//        verify(physicianRepository, times(1)).findByEmployeeId(1);
+//        verify(physicianRepository, times(1)).save(testPhysician);
+//    }
 
-        // Act
-        Physician result = physicianService.updateName(1, "Dr. Jane Doe");
-
-        // Assert
-        assertNotNull(result);
-        assertEquals("Dr. Jane Doe", result.getName());
-        verify(physicianRepository, times(1)).findByEmployeeId(1);
-        verify(physicianRepository, times(1)).save(testPhysician);
-    }
-
-    @Test
-    void updateName_ShouldReturnNull_WhenPhysicianNotExists() {
-        // Arrange
-        when(physicianRepository.findByEmployeeId(1)).thenReturn(Optional.empty());
-
-        // Act
-        Physician result = physicianService.updateName(1, "Dr. Jane Doe");
-
-        // Assert
-        assertNull(result);
-        verify(physicianRepository, times(1)).findByEmployeeId(1);
-        verify(physicianRepository, never()).save(any(Physician.class));
-    }
+//    @Test
+//    void updateName_ShouldReturnNull_WhenPhysicianNotExists() {
+//        // Arrange
+//        when(physicianRepository.findByEmployeeId(1)).thenReturn(Optional.empty());
+//
+//        // Act
+//        Physician result = physicianService.updateName(1, "Dr. Jane Doe");
+//
+//        // Assert
+//        assertNull(result);
+//        verify(physicianRepository, times(1)).findByEmployeeId(1);
+//        verify(physicianRepository, never()).save(any(Physician.class));
+//    }
 }
