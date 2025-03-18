@@ -35,7 +35,6 @@ class AppointmentServiceTest {
     void setUp() {
         testDate = new Date();
         testAppointment = new Appointment();
-        testAppointment.setPatientId(100);
         testAppointment.setPhysicianId(200);
         testAppointment.setNurseId(300);
         testAppointment.setStartDate(testDate);

@@ -1,6 +1,5 @@
 package com.hms.user_service.model;
 
-import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -13,7 +12,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-@Getter
 public abstract class BaseEntity implements Serializable {
 
     @Id
@@ -29,4 +27,17 @@ public abstract class BaseEntity implements Serializable {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updateTimestamp;
+
+    // Getters
+    public String getId() {
+        return id;
+    }
+
+    public LocalDateTime getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
+    public LocalDateTime getUpdateTimestamp() {
+        return updateTimestamp;
+    }
 }

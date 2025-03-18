@@ -7,7 +7,6 @@ import com.hms.user_service.model.User;
 import com.hms.user_service.repo.UserRepository;
 import com.hms.user_service.request.RegisterRequest;
 import com.hms.user_service.request.UserUpdateRequest;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+
+    // Constructor to manually inject the dependencies
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
+    }
 
     public User saveUser(RegisterRequest request) {
         User toSave = User.builder()
