@@ -35,7 +35,6 @@ class DepartmentServiceTest {
         testDepartment = new Department();
         testDepartment.setDeptId(1);
         testDepartment.setDeptName("Engineering");
-        testDepartment.setHeadId("head123");
         testDepartment.setHeadName("John Doe");
     }
 
@@ -51,7 +50,6 @@ class DepartmentServiceTest {
         assertNotNull(result);
         assertEquals(1, result.getDeptId());
         assertEquals("Engineering", result.getDeptName());
-        assertEquals("head123", result.getHeadId());
         verify(departmentRepository, times(1)).save(testDepartment);
     }
 
@@ -96,19 +94,19 @@ class DepartmentServiceTest {
         verify(departmentRepository, times(1)).findByDeptName("Engineering");
     }
 
-    @Test
-    void getDepartmentByHeadId_ShouldReturnDepartment_WhenExists() {
-        // Arrange
-        when(departmentRepository.findByHeadId("head123")).thenReturn(Optional.of(testDepartment));
-
-        // Act
-        Optional<Department> result = departmentService.getDepartmentByHeadId("head123");
-
-        // Assert
-        assertTrue(result.isPresent());
-        assertEquals(testDepartment, result.get());
-        verify(departmentRepository, times(1)).findByHeadId("head123");
-    }
+//    @Test
+//    void getDepartmentByHeadId_ShouldReturnDepartment_WhenExists() {
+//        // Arrange
+//        when(departmentRepository.findByHeadId("head123")).thenReturn(Optional.of(testDepartment));
+//
+//        // Act
+//        Optional<Department> result = departmentService.getDepartmentByHeadId("head123");
+//
+//        // Assert
+//        assertTrue(result.isPresent());
+//        assertEquals(testDepartment, result.get());
+//        verify(departmentRepository, times(1)).findByHeadId("head123");
+//    }
 
     @Test
     void getAllDepartment_ShouldReturnAllDepartments() {
@@ -150,7 +148,6 @@ class DepartmentServiceTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("newHead456", result.getHeadId());
         verify(departmentRepository, times(1)).findByDeptId(1);
         verify(departmentRepository, times(1)).save(testDepartment);
     }

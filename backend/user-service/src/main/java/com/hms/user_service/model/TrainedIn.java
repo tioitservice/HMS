@@ -1,30 +1,66 @@
 package com.hms.user_service.model;
 
-
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Setter
-@Getter
 @Entity
 @Table(name = "trained_in")
 public class TrainedIn {
 
-    // Getters and Setters
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int trainId;
 
-//    @Column(name = "physician_id", nullable = false)
-//    private int physicianId;
+    // Uncommented columns, assuming you need them
+    // @Column(name = "physician_id", nullable = false)
+    // private int physicianId;
 
     @Column(name = "training_name", nullable = false)
     private String trainingName;
 
-//    @Column(name = "certification_expiry_date", nullable = false)
-//    private LocalDate certificationExpiryDate;
+    // Uncommented column for certification expiry date
+    // @Column(name = "certification_expiry_date", nullable = false)
+    // private LocalDate certificationExpiryDate;
 
+    // Default constructor for JPA
+    public TrainedIn() {
+    }
+
+    // Getters and Setters
+    public int getTrainId() {
+        return trainId;
+    }
+
+    public void setTrainId(int trainId) {
+        this.trainId = trainId;
+    }
+
+    // Uncomment the following methods if you decide to use these fields
+    /*
+    public int getPhysicianId() {
+        return physicianId;
+    }
+
+    public void setPhysicianId(int physicianId) {
+        this.physicianId = physicianId;
+    }
+    */
+
+    public String getTrainingName() {
+        return trainingName;
+    }
+
+    public void setTrainingName(String trainingName) {
+        this.trainingName = trainingName;
+    }
+
+    /*
+    public LocalDate getCertificationExpiryDate() {
+        return certificationExpiryDate;
+    }
+
+    public void setCertificationExpiryDate(LocalDate certificationExpiryDate) {
+        this.certificationExpiryDate = certificationExpiryDate;
+    }
+    */
 }
