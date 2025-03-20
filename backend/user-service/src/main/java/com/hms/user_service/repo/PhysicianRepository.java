@@ -15,4 +15,5 @@ public interface PhysicianRepository extends JpaRepository<Physician, Integer> {
 
     Optional<Physician> findByEmployeeId(int employeeId);
 
+    Optional<Physician> findBySsn(String ssn);
 }

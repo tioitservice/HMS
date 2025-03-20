@@ -16,7 +16,8 @@ export default function Physicians() {
     name: "",
     position: "",
     deptId: 0,
-    trainId: 0
+    trainId: 0,
+    ssn: "",
   });
 
   // Fetch departments and trained_in options on component mount
@@ -84,7 +85,8 @@ export default function Physicians() {
       name: formData.name,
       position: formData.position,
       deptId: formData.deptId,
-      trainId: formData.trainId
+      trainId: formData.trainId,
+      ssn: formData.ssn
     };
 
     try {
@@ -130,7 +132,8 @@ export default function Physicians() {
         name: "",
         position: "",
         deptId: 0,
-        trainId: 0
+        trainId: 0,
+        ssn: ""
       });
     } catch (error) {
       toast.error("Error processing request");
@@ -144,7 +147,8 @@ export default function Physicians() {
       name: physician.name || "",
       position: physician.position || "",
       deptId: physician.deptId || 0,
-      trainId: physician.trainId || 0
+      trainId: physician.trainId || 0,
+      ssn: physician.ssn || ""
     });
     setShowModal(true);
   };
@@ -176,6 +180,15 @@ export default function Physicians() {
           name="position"
           placeholder="Position"
           value={formData.position}
+          onChange={handleInputChange}
+          className="w-full p-2 border rounded mb-3"
+        />
+
+        <input
+          type="text"
+          name="ssn"
+          placeholder="SSN"
+          value={formData.ssn}
           onChange={handleInputChange}
           className="w-full p-2 border rounded mb-3"
         />
@@ -231,7 +244,8 @@ export default function Physicians() {
                 name: "",
                 position: "",
                 deptId: 0,
-                trainId: 0
+                trainId: 0,
+                ssn: ""
               });
               setShowModal(true);
             }}
@@ -244,6 +258,7 @@ export default function Physicians() {
           <table className="w-full text-left border-collapse">
             <thead className="bg-blue-600 text-white">
               <tr>
+                <th className="p-4">ID</th>
                 <th className="p-4">Name</th>
                 <th className="p-4">Position</th>
                 <th className="p-4 text-center">Actions</th>
@@ -252,6 +267,7 @@ export default function Physicians() {
             <tbody>
               {physicians.map((physician) => (
                 <tr key={physician.employeeId} className="border-b hover:bg-gray-50 transition-all">
+                  <td className="p-4">{physician.employeeId}</td>
                   <td className="p-4">{physician.name}</td>
                   <td className="p-4">{physician.position}</td>
                   <td className="p-4 flex justify-center gap-3">
@@ -292,6 +308,7 @@ export default function Physicians() {
                 <p><strong>Position:</strong> {selectedPhysician?.position}</p>
                 <p><strong>Department ID:</strong> {selectedPhysician?.deptId}</p>
                 <p><strong>Train ID:</strong> {selectedPhysician?.trainId}</p>
+                <p><strong>SSN:</strong> {selectedPhysician?.ssn}</p>
               </div>
             </div>
           </div>

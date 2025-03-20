@@ -1,6 +1,5 @@
 package com.hms.user_service.model;
 
-
 import javax.persistence.*;
 
 @Entity
@@ -20,6 +19,8 @@ public class Nurse {
 
     @Column(name = "is_registered", nullable = false)
     private boolean isRegistered;
+
+    private String ssn;
 
     // Getters and Setters
     public int getEmpId() {
@@ -52,5 +53,13 @@ public class Nurse {
 
     public void setRegistered(boolean isRegistered) {
         this.isRegistered = isRegistered;
+    }
+
+    public String getSsn() {
+        return ssn;
+    }
+
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
     }
 }

@@ -61,12 +61,13 @@ public class NurseController {
         return ResponseEntity.notFound().build();
     }
 
-    // Update the registered value of nurse by empId
-    @PutMapping("/registered/{empid}/{value}")
-    public ResponseEntity<Nurse> updateNurseRegistration(@PathVariable int empid, @PathVariable boolean value) {
-        Optional<Nurse> updatedNurse = nurseService.updateNurseRegistration(empid, value);
+    // Update all nurse details (including SSN, position, name, isRegistered)
+    @PutMapping("/nurse/{empid}")
+    public ResponseEntity<Nurse> updateNurse(@PathVariable int empid, @RequestBody Nurse nurse) {
+        Optional<Nurse> updatedNurse = nurseService.updateNurse(empid, nurse);
         if (updatedNurse.isPresent()) {
             return ResponseEntity.ok(updatedNurse.get());
         }
-        return ResponseEntity.notFound().build();    }
+        return ResponseEntity.notFound().build();
+    }
 }
