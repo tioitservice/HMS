@@ -233,6 +233,7 @@ export default function Appointments() {
           <table className="w-full text-left border-collapse">
             <thead className="bg-blue-600 text-white">
               <tr>
+                <th className="p-4">Appointment ID</th>
                 <th className="p-4">Patient</th>
                 <th className="p-4">Physician</th>
                 <th className="p-4">Nurse</th>
@@ -244,6 +245,7 @@ export default function Appointments() {
             <tbody>
               {appointments.map((appt) => (
                 <tr key={appt.appointmentId} className="border-b hover:bg-gray-50 transition-all">
+                  <td className="p-4">{appt.appointmentId}</td>
                   <td className="p-4">
                     {patients.find((p) => p.id === appt.patientId)?.username || "N/A"}
                   </td>

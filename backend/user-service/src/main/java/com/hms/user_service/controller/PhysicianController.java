@@ -58,11 +58,15 @@ public class PhysicianController {
         return updatedPhysician != null ? ResponseEntity.ok(updatedPhysician) : ResponseEntity.notFound().build();
     }
 
-    // Update Physician's Name
     @PutMapping("/physician/update/{empid}")
     public ResponseEntity<Physician> updatePhysician(@PathVariable int empid, @RequestBody Physician physician) {
         Physician updatedPhysician = physicianService.updatePhysician(empid, physician); // Call to the service to update the full details
         return updatedPhysician != null ? ResponseEntity.ok(updatedPhysician) : ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/physician/update/ssn/{employeeId}/{newSsn}")
+    public Physician updateSsn(@PathVariable int employeeId, @PathVariable String newSsn) {
+        return physicianService.updateSsn(newSsn, employeeId);
     }
 
 }

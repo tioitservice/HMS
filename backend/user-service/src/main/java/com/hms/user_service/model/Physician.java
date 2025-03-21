@@ -11,27 +11,24 @@ public class Physician {
     private int employeeId;
 
     private String name;
-
     private String position;
-
     private int deptId;
-
     private int trainId;
 
-    // Default constructor for JPA
+    private String ssn;
+
     public Physician() {
     }
 
-    // Parameterized constructor
-    public Physician(int employeeId, String name, String position, int deptId, int trainId) {
+    public Physician(int employeeId, String name, String position, int deptId, int trainId, String ssn) {
         this.employeeId = employeeId;
         this.name = name;
         this.position = position;
         this.deptId = deptId;
         this.trainId = trainId;
+        this.ssn = ssn;
     }
 
-    // Getters and Setters
     public int getEmployeeId() {
         return employeeId;
     }
@@ -70,5 +67,13 @@ public class Physician {
 
     public void setTrainId(int trainId) {
         this.trainId = trainId;
+    }
+
+    public String getSsn() {
+        return ssn;
+    }
+
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
     }
 }
